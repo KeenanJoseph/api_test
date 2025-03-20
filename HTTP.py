@@ -62,6 +62,8 @@ def get_user(user_id: str = Path(..., min_length=6, max_length=20), current_user
     user = fake_db.get(user_id)
     if not user:
         raise HTTPException(status_code=404, detail={"message": "No user found"})
+    
+    
 
     return {
         "message": "User details by user_id",
@@ -102,4 +104,4 @@ def close_account(data: AccountDelete = Body(...), current_user: str = Depends(g
         del fake_db[current_user]
         return {"message": "Account and user successfully removed"}
     
-    raise HTTPException(status_code=404, detail={"message": "No user found"})
+    raise HTTPException(status_code=401, detail={"message": "Authentication failed"})
